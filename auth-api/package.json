@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "startDev": "npx nodemon --exec ts-node --files index.ts",
+    "dev": "npx nodemon --files index.ts",
     "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
@@ -15,11 +15,11 @@
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.14.0",
     "typeorm": "^0.2.41"
   },
   "devDependencies": {

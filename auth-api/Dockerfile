@@ -4,6 +4,6 @@ COPY package.json ./
 RUN yarn
 COPY . .
 
-CMD ["npx", "ts-node", "app.ts"]
+CMD ["npx", "ts-node", "--files", "index.ts"]
 
 EXPOSE 8080

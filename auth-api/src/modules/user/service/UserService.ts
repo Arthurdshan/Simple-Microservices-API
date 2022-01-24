@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { getCustomRepository } from "typeorm";
 import { UserException } from "../exception/UserException";
-import { User } from "../model/User";
+import { User } from "../model/User.entity";
 import { UserRepository } from "../repository/UserRepository";
 
 import bcrypt from 'bcryptjs';

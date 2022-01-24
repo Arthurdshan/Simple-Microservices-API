@@ -7,6 +7,6 @@
     "database": "auth-db",
     "synchronize": true,
     "entities": [
-        "./src/modules/user/model/*.ts"
+        "./src/**/**.entity{.ts, .js}"
     ]
 }
