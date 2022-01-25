@@ -18,6 +18,8 @@ public class ProductResponse
     private Integer id;
     private String name;
     private Integer availableQuantity;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private Instant createdAt;
     private SupplierResponse supplierResponse;
     private CategoryResponse categoryResponse;

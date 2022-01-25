@@ -8,6 +8,9 @@ import com.arthurhan.productapi.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoryService
 {
@@ -27,6 +30,29 @@ public class CategoryService
         validateRequest(request);
 
         Category category = categoryRepository.saveAndFlush(Category.of(request));
+
+        return CategoryResponse.of(category);
+    }
+
+    public List<CategoryResponse> findAll()
+    {
+        return categoryRepository
+                .findAll()
+                .stream()
+                .map(CategoryResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public CategoryResponse findById(Integer id)
+    {
+        if (id == null)
+        {
+            throw new ValidationException("ID must be informed");
+        }
+
+        Category category = categoryRepository
+                .findById(id)
+                .orElseThrow(() -> new ValidationException("No category for the given ID"));
 
         return CategoryResponse.of(category);
     }
