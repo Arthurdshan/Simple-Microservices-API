@@ -18,11 +18,9 @@ public class ProductResponse
     private Integer id;
     private String name;
     private Integer availableQuantity;
-
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private Instant createdAt;
-    private SupplierResponse supplierResponse;
-    private CategoryResponse categoryResponse;
+    private SupplierResponse supplier;
+    private CategoryResponse category;
 
     public static ProductResponse of(Product product)
     {
@@ -32,8 +30,8 @@ public class ProductResponse
                 .name(product.getName())
                 .availableQuantity(product.getAvailableQuantity())
                 .createdAt(product.getCreatedAt())
-                .supplierResponse(SupplierResponse.of(product.getSupplier()))
-                .categoryResponse(CategoryResponse.of(product.getCategory()))
+                .supplier(SupplierResponse.of(product.getSupplier()))
+                .category(CategoryResponse.of(product.getCategory()))
                 .build();
     }
 }

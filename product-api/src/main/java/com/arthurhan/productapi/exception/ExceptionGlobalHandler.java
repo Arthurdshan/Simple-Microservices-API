@@ -17,4 +17,14 @@ public class ExceptionGlobalHandler
 
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DeleteException.class)
+    public ResponseEntity<?> handleDeleteException(DeleteException deleteException)
+    {
+        ExceptionDetails details = new ExceptionDetails();
+        details.setStatus(HttpStatus.BAD_REQUEST.value());
+        details.setMessage(deleteException.getMessage());
+
+        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
+    }
 }
