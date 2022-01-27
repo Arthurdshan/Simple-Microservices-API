@@ -1,11 +1,9 @@
 package com.arthurhan.productapi.services;
 
 import com.arthurhan.productapi.config.StatusResponse;
-import com.arthurhan.productapi.dtos.CategoryRequest;
-import com.arthurhan.productapi.dtos.CategoryResponse;
 import com.arthurhan.productapi.dtos.ProductRequest;
 import com.arthurhan.productapi.dtos.ProductResponse;
-import com.arthurhan.productapi.exception.DeleteException;
+import com.arthurhan.productapi.exception.CrudException;
 import com.arthurhan.productapi.exception.ValidationException;
 import com.arthurhan.productapi.models.Category;
 import com.arthurhan.productapi.models.Product;
@@ -13,13 +11,11 @@ import com.arthurhan.productapi.models.Supplier;
 import com.arthurhan.productapi.repositories.CategoryRepository;
 import com.arthurhan.productapi.repositories.ProductRepository;
 import com.arthurhan.productapi.repositories.SupplierRepository;
-import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -155,14 +151,14 @@ public class ProductService
             productRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e)
         {
-            throw new DeleteException("No product was found for the given Id");
+            throw new CrudException("No product was found for the given Id");
         }
 
         return new StatusResponse(HttpStatus.OK.value(), "The product was deleted");
     }
 
     public ProductResponse update(ProductRequest request,
-                                   Integer id)
+                                  Integer id)
     {
         if (id == null)
         {
@@ -174,7 +170,11 @@ public class ProductService
         Optional<Category> category = categoryRepository.findById(request.getCategoryId());
         Optional<Supplier> supplier = supplierRepository.findById(request.getSupplierId());
 
-        Product product = Product.of(request, category.orElse(null), supplier.orElse(null));
+        Product product = Product.of(
+                request,
+                category.orElseThrow(() -> new CrudException("Category not found")),
+                supplier.orElseThrow(() -> new CrudException("Supplier not found")));
+
         product.setId(id);
 
         productRepository.saveAndFlush(product);

@@ -3,7 +3,7 @@ package com.arthurhan.productapi.services;
 import com.arthurhan.productapi.config.StatusResponse;
 import com.arthurhan.productapi.dtos.CategoryRequest;
 import com.arthurhan.productapi.dtos.CategoryResponse;
-import com.arthurhan.productapi.exception.DeleteException;
+import com.arthurhan.productapi.exception.CrudException;
 import com.arthurhan.productapi.exception.ValidationException;
 import com.arthurhan.productapi.models.Category;
 import com.arthurhan.productapi.repositories.CategoryRepository;
@@ -95,7 +95,7 @@ public class CategoryService
             categoryRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e)
         {
-            throw new DeleteException("No category was found for the given Id");
+            throw new CrudException("No category was found for the given Id");
         }
 
         return new StatusResponse(HttpStatus.OK.value(), "The category was deleted");

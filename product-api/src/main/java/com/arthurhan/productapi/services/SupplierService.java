@@ -3,7 +3,7 @@ package com.arthurhan.productapi.services;
 import com.arthurhan.productapi.config.StatusResponse;
 import com.arthurhan.productapi.dtos.SupplierRequest;
 import com.arthurhan.productapi.dtos.SupplierResponse;
-import com.arthurhan.productapi.exception.DeleteException;
+import com.arthurhan.productapi.exception.CrudException;
 import com.arthurhan.productapi.exception.ValidationException;
 import com.arthurhan.productapi.models.Supplier;
 import com.arthurhan.productapi.repositories.SupplierRepository;
@@ -85,7 +85,7 @@ public class SupplierService
             supplierRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e)
         {
-            throw new DeleteException("No supplier was found for the given Id");
+            throw new CrudException("No supplier was found for the given Id");
         }
 
         return new StatusResponse(HttpStatus.OK.value(), "The Supplier was deleted");

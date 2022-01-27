@@ -18,8 +18,8 @@ public class ExceptionGlobalHandler
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DeleteException.class)
-    public ResponseEntity<?> handleDeleteException(DeleteException deleteException)
+    @ExceptionHandler(CrudException.class)
+    public ResponseEntity<?> handleDeleteException(CrudException deleteException)
     {
         ExceptionDetails details = new ExceptionDetails();
         details.setStatus(HttpStatus.BAD_REQUEST.value());
