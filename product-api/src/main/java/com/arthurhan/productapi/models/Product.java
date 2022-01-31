@@ -52,4 +52,9 @@ public class Product
                 .createdAt(Instant.now())
                 .build();
     }
+
+    public void updateStock(Integer quantity)
+    {
+        availableQuantity = availableQuantity - quantity;
+    }
 }

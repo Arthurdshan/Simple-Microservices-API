@@ -25,12 +25,12 @@ export class UserService {
 
     async findBy(req: Request) {
         try {
-            const data: IUser = req.body as IUser;
             const { userId } = req;
-
+            const data: IUser = req.body as IUser;
+            
             const users: User[] = await this.userRepository.find({ where: data });
 
-            if (!users.length) {
+            if (users.length === 0) {
                 throw new UserException(400, "No users were found");
             }
 
@@ -94,7 +94,7 @@ export class UserService {
             const { email, password } = req.body;
 
             if (!email || !password) {
-                throw new UserException(401, "Email or password must be informed");
+                throw new UserException(401, "Email and password must be informed");
             }
 
             const user = await this.userRepository

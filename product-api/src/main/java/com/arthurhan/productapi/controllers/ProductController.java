@@ -1,8 +1,7 @@
 package com.arthurhan.productapi.controllers;
 
 import com.arthurhan.productapi.config.StatusResponse;
-import com.arthurhan.productapi.dtos.ProductRequest;
-import com.arthurhan.productapi.dtos.ProductResponse;
+import com.arthurhan.productapi.dtos.*;
 import com.arthurhan.productapi.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,5 +80,17 @@ public class ProductController
         ProductResponse response = productService.update(request, id);
 
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/check_stock")
+    public ResponseEntity<StatusResponse> checkProductStock(@RequestBody ProductCheckStockRequest request)
+    {
+        return new ResponseEntity<>(productService.checkProductStock(request), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/sales")
+    public ResponseEntity<ProductSalesResponse> findProductSales(@PathVariable Integer id)
+    {
+        return new ResponseEntity<>(productService.findProductSales(id), HttpStatus.OK);
     }
 }
