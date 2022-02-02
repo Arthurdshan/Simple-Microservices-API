@@ -1,6 +1,7 @@
 import amqp from 'amqplib/callback_api';
-import { RABBIT_MQ_URL } from '../../constants/secrets';
-import { SALES_CONFIRMATION_QUEUE } from '../../rabbitmq/queue';
+import { RABBIT_MQ_URL } from '../../../constants/secrets';
+import { SALES_CONFIRMATION_QUEUE } from '../../../rabbitmq/queue';
+import OrderService from '../service/OrderService';
 
 export function listenToConfirmationQueue() {
     amqp.connect(RABBIT_MQ_URL, (error, connection) => {
@@ -17,6 +18,7 @@ export function listenToConfirmationQueue() {
 
             channel.consume(SALES_CONFIRMATION_QUEUE, (message) => {
                 console.info(message?.content.toString());
+                OrderService.updateOrder(message!.content.toString());
             }, { noAck: true });
         });
     });

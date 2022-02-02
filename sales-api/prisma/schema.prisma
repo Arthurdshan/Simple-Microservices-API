@@ -11,15 +11,15 @@ datasource db {
 }
 
 model ProductOrder {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   productId Int
   quantity  Int
-  Order     Order? @relation(fields: [orderId], references: [id])
-  orderId   Int?
+  Order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   String?
 }
 
 model Order {
-  id        Int            @id @default(autoincrement())
+  id        String         @id @default(uuid())
   userId    Int
   createdAt DateTime
   updatedAt DateTime

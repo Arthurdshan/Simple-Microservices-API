@@ -1,7 +1,7 @@
 import { Channel } from 'amqplib';
 import amqp from 'amqplib/callback_api';
 import { RABBIT_MQ_URL } from '../constants/secrets';
-import { listenToConfirmationQueue } from '../modules/sales/salesConfirmationListener';
+import { listenToConfirmationQueue } from '../modules/sales/rabbitmq/salesConfirmationListener';
 import { PRODUCT_STOCK_UPDATE_QUEUE, PRODUCT_STOCK_UPDATE_ROUTING_KEY, PRODUCT_TOPIC, SALES_CONFIRMATION_QUEUE, SALES_CONFIRMATION_ROUTING_KEY } from './queue';
 
 const TWO_SECONDS = 2000;

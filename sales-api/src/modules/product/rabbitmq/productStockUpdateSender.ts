@@ -1,6 +1,6 @@
 import amqp from 'amqplib/callback_api';
-import { RABBIT_MQ_URL } from '../../constants/secrets';
-import { PRODUCT_TOPIC, PRODUCT_STOCK_UPDATE_ROUTING_KEY } from '../../rabbitmq/queue';
+import { RABBIT_MQ_URL } from '../../../constants/secrets';
+import { PRODUCT_TOPIC, PRODUCT_STOCK_UPDATE_ROUTING_KEY } from '../../../rabbitmq/queue';
 
 export function sendProductStockUpdateQueue(message: object) {
     amqp.connect(RABBIT_MQ_URL, (error, connection) => {
