@@ -1,10 +1,25 @@
 version: "3"
 services:
 
+  sales-db:
+    image: postgres:11
+    container_name: sales-db
+    restart: always
+    networks:
+      - sales-network
+    environment:
+      - POSTGRES_DB=sales-db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5434:5432
+
   auth-db:
     image: postgres:11
     container_name: auth-db
     restart: always
+    networks:
+      - sales-network
     environment:
       - POSTGRES_DB=auth-db
       - POSTGRES_USER=admin
@@ -16,6 +31,8 @@ services:
     image: postgres:11
     container_name: product-db
     restart: always
+    networks:
+      - sales-network
     environment:
       - POSTGRES_DB=product-db
       - POSTGRES_USER=admin
@@ -23,45 +40,79 @@ services:
     ports:
       - 5433:5432
 
-  sales-db:
-    image: postgres:11
-    container_name: sales-db
-    restart: always
+  sales-rabbit:
+    image: rabbitmq:3-management
+    container_name: sales-rabbit
+    hostname: sales-rabbit
+    networks:
+      - sales-network
     environment:
-      - POSTGRES_DB=sales-db
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=123456
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     ports:
-      - 5434:5432
+      - 5672:5672
+      - 15672:15672
 
   auth-api:
     build: './auth-api'
     container_name: auth-api
+    depends_on:
+      - auth-db
+    networks:
+      - sales-network
     environment:
       - PORT=8080
+      - API_SECRET=YXBpc2VjcmV0cGFyYXByb2RkZW1pY3Jvc2VydmnDp29zMTIzNDU2
+      - DB_HOST=auth-db
+      - DB_NAME=auth-db
+      - DB_USER=admin
+      - DB_PASSWORD=123456
+      - DB_PORT=5432
     ports:
       - 8080:8080
 
   product-api:
     build: './product-api'
     container_name: product-api
+    depends_on:
+      - product-db
+      - sales-rabbit
+    networks:
+      - sales-network
     environment:
       - PORT=8081
+      - API_SECRET=YXBpc2VjcmV0cGFyYXByb2RkZW1pY3Jvc2VydmnDp29zMTIzNDU2
+      - DB_HOST=product-db
+      - DB_NAME=product-db
+      - DB_USER=admin
+      - DB_PASSWORD=123456
+      - DB_PORT=5432
+      - RABBIT_MQ_HOST=sales-rabbit
+      - RABBIT_MQ_PORT=5672
+      - RABBIT_MQ_USER=guest
+      - RABBIT_MQ_PASSWORD=guest
+      - SALES_HOST=sales-api
+      - SALES_PORT=8082
     ports:
       - 8081:8081
 
   sales-api:
     build: './sales-api'
     container_name: sales-api
+    depends_on:
+      - sales-db
+      - sales-rabbit
+    networks:
+      - sales-network
     environment:
       - PORT=8082
+      - API_SECRET=YXBpc2VjcmV0cGFyYXByb2RkZW1pY3Jvc2VydmnDp29zMTIzNDU2
+      - DATABASE_URL=postgresql://admin:123456@sales-db:5432/sales-db?schema=public
+      - RABBIT_MQ_URL=amqp://sales-rabbit:5672
+      - PRODUCT_API_URL=http://product-api:8081/api/product
     ports:
       - 8082:8082
 
-  sales-rabbit:
-    image: rabbitmq:3-management
-    container_name: sales-rabbit
-    restart: always
-    ports:
-      - 5672:5672
-      - 15672:15672
+networks:
+  sales-network:
+    driver: bridge

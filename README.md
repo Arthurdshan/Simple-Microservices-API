@@ -10,10 +10,13 @@ Microservices project using rabbitMQ for communication. No API Gateway or servic
 - Express
 - API REST
 - PostgreSQL
+- TypeORM
+- Prisma
 - RabbitMQ
 - Docker
 - Docker-compose
 - JWT
+- Axios
 
 ## Microservices
 - Authorization
@@ -39,4 +42,9 @@ docker run --name sales-db -p 5434:5432 -e POSTGRES_DB=sales-db -e POSTGRES_USER
 Container RabbitMQ:
 ```
 docker run --name sales_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672 rabbitmq:3-management
+```
+
+Docker compose:
+```
+docker-compose up --build
 ```

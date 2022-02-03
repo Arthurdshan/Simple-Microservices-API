@@ -26,7 +26,7 @@ async function loadRabbitMq() {
             throw error;
         }
 
-        console.info("Starting rabbitMQ.");
+        console.info("Starting rabbitMQ..");
 
         createQueue(
             connection,
@@ -55,13 +55,8 @@ async function loadRabbitMq() {
 }
 
 export async function connectRabbitMq() {
-    const env = process.env.NODE_ENV;
-    if (CONTAINER_ENV === env) {
-        console.info("waiting for rabbitMQ to start...");
-        setInterval(() => {
-            loadRabbitMq();
-        }, HALF_MINUTE);
-    } else {
+    console.info("waiting for rabbitMQ to start...");
+    setInterval(() => {
         loadRabbitMq();
-    }
+    }, HALF_MINUTE);
 }

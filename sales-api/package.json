@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "npx nodemon --files index.ts"
+    "dev": "npx nodemon --files index.ts",
+    "prod": "prisma migrate deploy && npx ts-node --files index.ts "
   },
   "dependencies": {
     "@prisma/client": "^3.8.1",

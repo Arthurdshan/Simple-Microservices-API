@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosError } from "axios";
+import axios from "axios";
 import { PRODUCT_API_URL } from "../../../constants/secrets";
 import { IProductOrder } from "../../../constants/types";
 
@@ -13,7 +13,6 @@ class ProductClient {
             await API.post(`${PRODUCT_API_URL}/check_stock`, { products: products });
 
             return true;
-
         } catch (error) {
             console.error(error);
             
