@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx nodemon --files index.ts",
+    "prod": "npx ts-node --files index.ts",
     "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
